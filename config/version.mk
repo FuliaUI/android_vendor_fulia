@@ -13,58 +13,39 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-ARROW_MOD_VERSION = v13.0
-ARROW_BUILD_TYPE := UNOFFICIAL
-ARROW_BUILD_ZIP_TYPE := VANILLA
-
-ifeq ($(ARROW_BETA),true)
-    ARROW_BUILD_TYPE := BETA
-endif
-
-ifeq ($(ARROW_GAPPS), true)
-    $(call inherit-product, vendor/gapps/common/common-vendor.mk)
-    ARROW_BUILD_ZIP_TYPE := GAPPS
-endif
+FULIA_MOD_VERSION = 1.0
+FULIA_BUILD_TYPE := UNOFFICIAL
 
 CURRENT_DEVICE=$(shell echo "$(TARGET_PRODUCT)" | cut -d'_' -f 2,3)
 
-ifeq ($(ARROW_OFFICIAL), true)
-   LIST = $(shell cat infrastructure/devices/arrow.devices | awk '$$1 != "#" { print $$2 }')
+ifeq ($(FULIA_OFFICIAL), true)
+   LIST = $(shell cat ota/devices/fulia.devices | awk '$$1 != "#" { print $$2 }')
     ifeq ($(filter $(CURRENT_DEVICE), $(LIST)), $(CURRENT_DEVICE))
       IS_OFFICIAL=true
-      ARROW_BUILD_TYPE := OFFICIAL
+      FULIA_BUILD_TYPE := OFFICIAL
 
 PRODUCT_PACKAGES += \
     Updater
 
     endif
     ifneq ($(IS_OFFICIAL), true)
-       ARROW_BUILD_TYPE := UNOFFICIAL
+       FULIA_BUILD_TYPE := UNOFFICIAL
        $(error Device is not official "$(CURRENT_DEVICE)")
     endif
 endif
 
-ifeq ($(ARROW_COMMUNITY), true)
-   LIST = $(shell cat infrastructure/devices/arrow-community.devices | awk '$$1 != "#" { print $$2 }')
-    ifeq ($(filter $(CURRENT_DEVICE), $(LIST)), $(CURRENT_DEVICE))
-      IS_COMMUNITY=true
-      ARROW_BUILD_TYPE := COMMUNITY
-    endif
-    ifneq ($(IS_COMMUNITY), true)
-       ARROW_BUILD_TYPE := UNOFFICIAL
-       $(error This isn't a community device "$(CURRENT_DEVICE)")
-    endif
+ifeq ($(FULIA_BETA),true)
+    FULIA_VERSION := FuliaUI-$(FULIA_MOD_VERSION)-$(CURRENT_DEVICE)-$(FULIA_BUILD_TYPE)-$(shell date -u +%Y%m%d)-BETA
+else
+    FULIA_VERSION := FuliaUI-$(FULIA_MOD_VERSION)-$(CURRENT_DEVICE)-$(FULIA_BUILD_TYPE)-$(shell date -u +%Y%m%d)
 endif
 
-ARROW_VERSION := Arrow-$(ARROW_MOD_VERSION)-$(CURRENT_DEVICE)-$(ARROW_BUILD_TYPE)-$(shell date -u +%Y%m%d)-$(ARROW_BUILD_ZIP_TYPE)
+PRODUCT_SYSTEM_DEFAULT_PROPERTIES += \
+  ro.fulia.version=$(FULIA_VERSION) \
+  ro.fulia.releasetype=$(FULIA_BUILD_TYPE) \
+  ro.modversion=$(FULIA_MOD_VERSION)
+
+FULIA_DISPLAY_VERSION := FuliaUI-$(FULIA_MOD_VERSION)-$(FULIA_BUILD_TYPE)
 
 PRODUCT_SYSTEM_DEFAULT_PROPERTIES += \
-  ro.arrow.version=$(ARROW_VERSION) \
-  ro.arrow.releasetype=$(ARROW_BUILD_TYPE) \
-  ro.arrow.ziptype=$(ARROW_BUILD_ZIP_TYPE) \
-  ro.modversion=$(ARROW_MOD_VERSION)
-
-ARROW_DISPLAY_VERSION := Arrow-$(ARROW_MOD_VERSION)-$(ARROW_BUILD_TYPE)
-
-PRODUCT_SYSTEM_DEFAULT_PROPERTIES += \
-  ro.arrow.display.version=$(ARROW_DISPLAY_VERSION)
+  ro.fulia.display.version=$(FULIA_DISPLAY_VERSION)

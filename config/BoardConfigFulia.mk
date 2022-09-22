@@ -1,5 +1,5 @@
 #
-# Copyright (C) 2018-2019 ArrowOS
+# Copyright (C) 2022 FuliaUI
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -13,10 +13,10 @@
 # See the License for the specific language governing permissions and
 # limitations under the License
 
-include vendor/arrow/config/BoardConfigKernel.mk
+include vendor/fulia/config/BoardConfigKernel.mk
 
 ifeq ($(BOARD_USES_QCOM_HARDWARE),true)
-include vendor/arrow/config/BoardConfigQcom.mk
+include vendor/fulia/config/BoardConfigQcom.mk
 endif
 
-include vendor/arrow/config/BoardConfigSoong.mk
+include vendor/fulia/config/BoardConfigSoong.mk
