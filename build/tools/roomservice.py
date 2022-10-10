@@ -45,8 +45,8 @@ default_manifest = ".repo/manifest.xml"
 custom_local_manifest = ".repo/local_manifests/roomservice.xml"
 custom_default_revision = "13.0"
 custom_dependencies = "fulia.dependencies"
-org_manifest = "Diverse-Techs-Circle"  # leave empty if org is provided in manifest
-org_display = "Diverse-Techs-Circle"  # needed for displaying
+org_manifest = "fulia"  # leave empty if org is provided in manifest
+org_display = "FuliaUI"  # needed for displaying
 
 fulia_manifest = ".repo/manifests/fulia.xml"
 hals_manifest = ".repo/manifests/hals.xml"
