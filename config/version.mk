@@ -23,10 +23,6 @@ ifeq ($(FULIA_OFFICIAL), true)
     ifeq ($(filter $(CURRENT_DEVICE), $(LIST)), $(CURRENT_DEVICE))
       IS_OFFICIAL=true
       FULIA_BUILD_TYPE := OFFICIAL
-
-PRODUCT_PACKAGES += \
-    Updater
-
     endif
     ifneq ($(IS_OFFICIAL), true)
        FULIA_BUILD_TYPE := UNOFFICIAL
